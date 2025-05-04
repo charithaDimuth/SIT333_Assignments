@@ -4,8 +4,8 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Completed by: W.A. Charitha Dimuth Wickramanayake  
- * Student ID: s225094448  
+ * Completed by: W.A. Charitha Dimuth Wickramanayake
+ * Student ID: s225094448
  */
 public class DateUtilTest {
 
@@ -165,5 +165,69 @@ public class DateUtilTest {
         date.increment();
         Assert.assertEquals(16, date.getDay());
         Assert.assertEquals(6, date.getMonth());
+    }
+
+    // === Additional Test Cases ===
+
+    @Test
+    public void testLeapYear_Feb29() {
+        DateUtil date = new DateUtil(29, 2, 2024);
+        date.increment();
+        Assert.assertEquals(1, date.getDay());
+        Assert.assertEquals(3, date.getMonth());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testNonLeapYear_Feb29_Invalid() {
+        new DateUtil(29, 2, 2023);
+    }
+
+    @Test
+    public void testFeb28_NonLeap() {
+        DateUtil date = new DateUtil(28, 2, 2023);
+        date.increment();
+        Assert.assertEquals(1, date.getDay());
+        Assert.assertEquals(3, date.getMonth());
+    }
+
+    @Test
+    public void testApril30ToMay1() {
+        DateUtil date = new DateUtil(30, 4, 2023);
+        date.increment();
+        Assert.assertEquals(1, date.getDay());
+        Assert.assertEquals(5, date.getMonth());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testInvalidApril31() {
+        new DateUtil(31, 4, 2023);
+    }
+
+    @Test
+    public void testDec31ToJan1() {
+        DateUtil date = new DateUtil(31, 12, 2023);
+        date.increment();
+        Assert.assertEquals(1, date.getDay());
+        Assert.assertEquals(1, date.getMonth());
+        Assert.assertEquals(2024, date.getYear());
+    }
+
+    @Test
+    public void testJan1ToDec31PreviousYear() {
+        DateUtil date = new DateUtil(1, 1, 2024);
+        date.decrement();
+        Assert.assertEquals(31, date.getDay());
+        Assert.assertEquals(12, date.getMonth());
+        Assert.assertEquals(2023, date.getYear());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testDecrementBelow1700() {
+        new DateUtil(1, 1, 1700).decrement();
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testIncrementBeyond2024() {
+        new DateUtil(31, 12, 2024).increment();
     }
 }
