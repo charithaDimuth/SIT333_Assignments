@@ -54,6 +54,8 @@ public class DateUtil {
 			day = 1;
 			month++;
 		} else {
+			if (year >= 2024)
+				throw new IllegalArgumentException("Year exceeds maximum limit (2024)");
 			day = 1;
 			month = 1;
 			year++;
@@ -70,6 +72,8 @@ public class DateUtil {
 			month--;
 			day = monthDuration(month, year);
 		} else {
+			if (year <= 1700)
+				throw new IllegalArgumentException("Year is below minimum limit (1700)");
 			month = 12;
 			year--;
 			day = monthDuration(month, year);
